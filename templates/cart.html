@@ -1,0 +1,133 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<div class="container">   
+    <h1>Shopping Cart</h1>
+
+    {% if cart_items %}
+    <form method="POST" action="{% url 'mycart' %}">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Price (Birr)</th>
+                    <th>Quantity</th>
+                    <th>Subtotal (Birr)</th>
+                    <th>Actions</th>  <!-- Added Actions column -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr data-item-id="{{ item.id }}" data-price="{{ item.price }}">
+                    <td>{{ item.name }}</td>
+                    <td>
+                        <img src="{{ item.image }}" alt="{{ item.name }}" width="100" height="100" style="object-fit: cover;">
+                    </td>
+                    <td class="item-price">{{ item.price }}</td>
+                    <td>
+                        <div class="quantity-control">
+                            <button class=" btn btn-secondary decrease-qty" type="button">-</button>
+                            <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1" class="quantity-input">
+                            <button class="btn btn-secondary increase-qty" type="button">+</button>
+                        </div>
+                    </td>
+                    <td class="item-subtotal">{{ item.subtotal }}</td>
+                    <td>
+                        <button type="submit" name="remove_{{ item.id }}" class="btn btn-danger btn-sm">Remove</button>  <!-- Remove button -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-6">
+                
+            </div>
+            <div class="col-md-6 border p-3">
+                <h2 class="text-center">Cart Totals</h2>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr class="border-bottom">
+                            <th>Subtotal</th>
+                            <td id="cart-total">{{ total_price }} Birr</td>
+                        </tr>
+                        <tr>
+                            <th>Total</th>
+                            <td id="total-price">{{ total_price }} Birr</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">UPDATE CART</button>
+                <!-- Button trigger modal -->
+                <a href="{% url 'checkout'%}"><button type="button" class="btn btn-primary btn-lg btn-block mt-2" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+                    PROCEED TO CHECKOUT
+                </button></a>
+            </div>
+        </div>
+    </form>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+        
+
+
+<!-- Bootstrap JS (Ensure version matches your CSS) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>   
+
+<script>
+    // JavaScript to handle increase and decrease buttons
+    document.querySelectorAll('.decrease-qty').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent form submission
+            const input = this.parentElement.querySelector('.quantity-input');
+            let currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+                updateCart(this.closest('tr'));
+            }
+        });
+    });
+
+    document.querySelectorAll('.increase-qty').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent form submission
+            const input = this.parentElement.querySelector('.quantity-input');
+            let currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+            updateCart(this.closest('tr'));
+        });
+    });
+
+    // Function to update the subtotal and total prices
+    function updateCart(row) {
+        const price = parseFloat(row.getAttribute('data-price'));
+        const quantityInput = row.querySelector('.quantity-input');
+        const subtotalCell = row.querySelector('.item-subtotal');
+
+        const quantity = parseInt(quantityInput.value);
+        const subtotal = price * quantity;
+
+        subtotalCell.textContent = subtotal.toFixed(2); // Update subtotal in the row
+        updateTotal(); // Update the total cart price
+    }
+
+    // Function to update total price in the cart
+    function updateTotal() {
+        const rows = document.querySelectorAll('tbody tr');
+        let total = 0;
+
+        rows.forEach(row => {
+            const subtotalCell = row.querySelector('.item-subtotal');
+            total += parseFloat(subtotalCell.textContent);
+        });
+
+        document.getElementById('cart-total').textContent = total.toFixed(2) + ' Birr'; // Update cart total
+        document.getElementById('total-price').textContent = total.toFixed(2) + ' Birr'; // Update total price
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .product-image-preview {
+      width: 100px;
+      height: auto;
+    }
+    .form-section {
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+   <form method="POST">
+        {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6 form-section">
+          <label for="productId" class="form-label">Total Fee</label>
+          <input type="text" class="form-control" id="productId" value="{{total}} Birr" readonly>
+        </div>
+
+        <div class="col-md-6 form-section">
+          <label for="name" class="form-label">First Name:</label>
+          <input type="text" class="form-control" id="name" placeholder="Your First Name" name="fname" required>
+        </div>
+
+        <div class="col-md-6 form-section">
+            <label for="name" class="form-label">Last Name:</label>
+            <input type="text" class="form-control" id="name" placeholder="Your Last Name" name="last">
+          </div>
+
+        <div class="col-md-6 form-section">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" placeholder="Your Email Here" name="email" required>
+        </div>
+
+
+        <div class="col-md-6 form-section">
+          <label for="Phone" class="form-label">Phone Number:</label>
+          <input type="text" class="form-control" id="Phone" placeholder="Phone Number" name="phone" required> 
+        </div>
+
+        <div class="col-md-6 form-section">
+            <label for="Kebele" class="form-label">Kebele:</label>
+            <input type="text" class="form-control" id="kebele" placeholder="Your Kebele" name="kebele"> 
+          </div>
+
+          <div class="col-md-6 form-section">
+            <label for="city" class="form-label">City:</label>
+            <input type="text" class="form-control" id="city" placeholder="Your City" name="city"> 
+          </div>
+
+
+        <div class="col-md-6 form-section">
+          <label for="currency" class="form-label">Payment Currency</label>
+          <select id="currency" class="form-select">
+            <option value="USD" >USD</option>
+            <option value="EUR">EUR</option>
+            <option value="ETB" selected>ETB</option>
+          </select>
+        </div>
+
+        <div class="col-md-6 form-section">
+          <label for="note" class="form-label">Note</label>
+              <textarea class="massage-bt border" placeholder="Send a note" rows="4" id="note" name="note" ></textarea>
+          </div>
+            <button type="submit" class="btn btn-primary px-5 py-2 mb-4">Place Order</button>
+
+         
+      </div>
+     
+    </form>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Image Preview Script -->
+  <script>
+    function previewImage(event) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const output = document.getElementById('imagePreview');
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+</body>
+</html>
+
+{% endblock %}
+
+
