@@ -1,0 +1,6 @@
+# Ignore non-core files in language stats
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+
+# Force GitHub to treat all .py files as Python
+*.py linguist-language=Python
