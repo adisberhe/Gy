@@ -11,7 +11,7 @@
                 <!-- "All" Category -->
                 <li class="list-group-item mb-1 {% if not selected_category or selected_category == 'all' %}active{% endif %}">
                     <a href="{% url 'shop' %}?category=all" class="{% if not selected_category or selected_category == 'all' %}text-white{% else %}text-decoration-none{% endif %}">
-                        All ({{ products.count }})
+                        All
                     </a>
                 </li>
                 <!-- Dynamic Categories -->

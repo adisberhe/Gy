@@ -71,7 +71,11 @@
               <textarea class="massage-bt border" placeholder="Send a note" rows="4" id="note" name="note" ></textarea>
           </div>
             <button type="submit" class="btn btn-primary px-5 py-2 mb-4">Place Order</button>
-
+            {% if messages %}
+                                 {% for message in messages %}
+                                     <span class="text-light bg-success ml-5 p-2 fw-bold rounded">{{message}}</span>
+                                 {% endfor %}
+                           {% endif %}
          
       </div>
      

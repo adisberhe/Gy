@@ -215,5 +215,6 @@ def place_order(request):
         return redirect('shop')
     context = {
         'total': total_price,
+        
     }
     return render(request, 'checkout.html',context)

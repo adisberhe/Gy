@@ -13,10 +13,10 @@
                 
                 <form method="POST" action="{% url 'contact' %}">
                     {% csrf_token %}
-                    <div class="mail_sectin">
+                    <div class="mail_section">
                         <input type="text" class="email-bt" placeholder="Name" name="name" required>
                         <input type="email" class="email-bt" placeholder="Email" name="email" required>
-                        <input type="text" class="email-bt" placeholder="Phone Number" name="phone" required>
+                        <input type="text" class="email-bt mb-4" placeholder="Phone Number" name="phone" required>
                         <textarea class="massage-bt" placeholder="Message" rows="5" id="comment" name="message" required></textarea>
                         <div class=" btn">
                            
@@ -86,7 +86,7 @@
                 <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
             </ul>
         </div>
-        <p class="copyright_text">2024 All Rights Reserved. Design by Adya Design [0987397082] [Addis ababa]</p>
+        <p class="copyright_text">2024 Backend by Adis [adisberhe0@gmail.com] [Addis ababa]</p>
     </div>
 </div>
 <!-- Copyright section end -->
